@@ -7,53 +7,27 @@ import numpy as np
 class H36mSkeleton(object):
 
     def __init__(self):
-        # self.root = 'Hip'
-        # self.keypoint2index = {
-        #     'Hip': 0,
-        #     'RightHip': 1,
-        #     'RightKnee': 2,
-        #     'RightAnkle': 3,
-        #     'LeftHip': 4,
-        #     'LeftKnee': 5,
-        #     'LeftAnkle': 6,
-        #     'Spine': 7,
-        #     'Thorax': 8,
-        #     'Neck': 9,
-        #     'HeadEndSite': 10,
-        #     'LeftShoulder': 11,
-        #     'LeftElbow': 12,
-        #     'LeftWrist': 13,
-        #     'RightShoulder': 14,
-        #     'RightElbow': 15,
-        #     'RightWrist': 16,
-        #     'RightAnkleEndSite': -1,
-        #     'LeftAnkleEndSite': -1,
-        #     'LeftWristEndSite': -1,
-        #     'RightWristEndSite': -1
-        # }
-
-        self.root = 'world_offset'
+        self.root = 'Hip'
         self.keypoint2index = {
-            'world_offset': -1,
-            'Hips': 0,
-            'RightUpLeg': 1,
-            'RightLeg': 2,
-            'RightFoot': 3,
-            'LeftUpLeg': 4,
-            'LeftLeg': 5,
-            'LeftFoot': 6,
+            'Hip': 0,
+            'RightHip': 1,
+            'RightKnee': 2,
+            'RightAnkle': 3,
+            'LeftHip': 4,
+            'LeftKnee': 5,
+            'LeftAnkle': 6,
             'Spine': 7,
-            'Spine3': 8,
+            'Thorax': 8,
             'Neck': 9,
-            'Head': 10,
-            'LeftArm': 11,
-            'LeftForeArm': 12,
-            'LeftHand': 13,
-            'RightArm': 14,
-            'RightForeArm': 15,
-            'RightHand': 16,
-            'RightFoot_End': -1,
-            'LeftFoot_End': -1,
+            'HeadEndSite': 10,
+            'LeftShoulder': 11,
+            'LeftElbow': 12,
+            'LeftWrist': 13,
+            'RightShoulder': 14,
+            'RightElbow': 15,
+            'RightWrist': 16,
+            'RightAnkleEndSite': -1,
+            'LeftAnkleEndSite': -1,
             'LeftWristEndSite': -1,
             'RightWristEndSite': -1
         }
@@ -61,52 +35,27 @@ class H36mSkeleton(object):
         self.index2keypoint = {v: k for k, v in self.keypoint2index.items()}
         self.keypoint_num = len(self.keypoint2index)
 
-        # self.children = {
-        #     'Hip': ['RightHip', 'LeftHip', 'Spine'],
-        #     'RightHip': ['RightKnee'],
-        #     'RightKnee': ['RightAnkle'],
-        #     'RightAnkle': ['RightAnkleEndSite'],
-        #     'RightAnkleEndSite': [],
-        #     'LeftHip': ['LeftKnee'],
-        #     'LeftKnee': ['LeftAnkle'],
-        #     'LeftAnkle': ['LeftAnkleEndSite'],
-        #     'LeftAnkleEndSite': [],
-        #     'Spine': ['Thorax'],
-        #     'Thorax': ['Neck', 'LeftShoulder', 'RightShoulder'],
-        #     'Neck': ['HeadEndSite'],
-        #     'HeadEndSite': [], # Head is an end site
-        #     'LeftShoulder': ['LeftElbow'],
-        #     'LeftElbow': ['LeftWrist'],
-        #     'LeftWrist': ['LeftWristEndSite'],
-        #     'LeftWristEndSite': [],
-        #     'RightShoulder': ['RightElbow'],
-        #     'RightElbow': ['RightWrist'],
-        #     'RightWrist': ['RightWristEndSite'],
-        #     'RightWristEndSite': []
-        # }
-
         self.children = {
-            'world_offset':['Hips'],
-            'Hips': ['RightUpLeg', 'LeftUpLeg', 'Spine'],
-            'RightUpLeg': ['RightLeg'],
-            'RightLeg': ['RightFoot'],
-            'RightFoot': ['RightFoot_End'],
-            'RightFoot_End': [],
-            'LeftUpLeg': ['LeftLeg'],
-            'LeftLeg': ['LeftFoot'],
-            'LeftFoot': ['LeftFoot_End'],
-            'LeftFoot_End': [],
-            'Spine': ['Spine3'],
-            'Spine3': ['Neck', 'LeftArm', 'RightArm'],
-            'Neck': ['Head'],
-            'Head': [], # Head is an end site
-            'LeftArm': ['LeftForeArm'],
-            'LeftForeArm': ['LeftHand'],
-            'LeftHand': ['LeftWristEndSite'],
+            'Hip': ['RightHip', 'LeftHip', 'Spine'],
+            'RightHip': ['RightKnee'],
+            'RightKnee': ['RightAnkle'],
+            'RightAnkle': ['RightAnkleEndSite'],
+            'RightAnkleEndSite': [],
+            'LeftHip': ['LeftKnee'],
+            'LeftKnee': ['LeftAnkle'],
+            'LeftAnkle': ['LeftAnkleEndSite'],
+            'LeftAnkleEndSite': [],
+            'Spine': ['Thorax'],
+            'Thorax': ['Neck', 'LeftShoulder', 'RightShoulder'],
+            'Neck': ['HeadEndSite'],
+            'HeadEndSite': [], # Head is an end site
+            'LeftShoulder': ['LeftElbow'],
+            'LeftElbow': ['LeftWrist'],
+            'LeftWrist': ['LeftWristEndSite'],
             'LeftWristEndSite': [],
-            'RightArm': ['RightForeArm'],
-            'RightForeArm': ['RightHand'],
-            'RightHand': ['RightWristEndSite'],
+            'RightShoulder': ['RightElbow'],
+            'RightElbow': ['RightWrist'],
+            'RightWrist': ['RightWristEndSite'],
             'RightWristEndSite': []
         }
 
@@ -125,29 +74,29 @@ class H36mSkeleton(object):
         ]
 
         # human3.6m坐标系(Z向上，Y向前，X向左)下的T-pose
-        # self.initial_directions = {
-        #     'Hip': [0, 0, 0],
-        #     'RightHip': [-1, 0, 0],
-        #     'RightKnee': [0, 0, -1],
-        #     'RightAnkle': [0, 0, -1],
-        #     'RightAnkleEndSite': [0, -1, 0],
-        #     'LeftHip': [1, 0, 0],
-        #     'LeftKnee': [0, 0, -1],
-        #     'LeftAnkle': [0, 0, -1],
-        #     'LeftAnkleEndSite': [0, -1, 0],
-        #     'Spine': [0, 0, 1],
-        #     'Thorax': [0, 0, 1],
-        #     'Neck': [0, 0, 1],
-        #     'HeadEndSite': [0, 0, 1],
-        #     'LeftShoulder': [1, 0, 0],
-        #     'LeftElbow': [1, 0, 0],
-        #     'LeftWrist': [1, 0, 0],
-        #     'LeftWristEndSite': [1, 0, 0],
-        #     'RightShoulder': [-1, 0, 0],
-        #     'RightElbow': [-1, 0, 0],
-        #     'RightWrist': [-1, 0, 0],
-        #     'RightWristEndSite': [-1, 0, 0]
-        # }
+        self.initial_directions = {
+            'Hip': [0, 0, 0],
+            'RightHip': [-1, 0, 0],
+            'RightKnee': [0, 0, -1],
+            'RightAnkle': [0, 0, -1],
+            'RightAnkleEndSite': [0, -1, 0],
+            'LeftHip': [1, 0, 0],
+            'LeftKnee': [0, 0, -1],
+            'LeftAnkle': [0, 0, -1],
+            'LeftAnkleEndSite': [0, -1, 0],
+            'Spine': [0, 0, 1],
+            'Thorax': [0, 0, 1],
+            'Neck': [0, 0, 1],
+            'HeadEndSite': [0, 0, 1],
+            'LeftShoulder': [1, 0, 0],
+            'LeftElbow': [1, 0, 0],
+            'LeftWrist': [1, 0, 0],
+            'LeftWristEndSite': [1, 0, 0],
+            'RightShoulder': [-1, 0, 0],
+            'RightElbow': [-1, 0, 0],
+            'RightWrist': [-1, 0, 0],
+            'RightWristEndSite': [-1, 0, 0]
+        }
 
         # SmartBody坐标系(Y向上，Z向前，X向右)下的T-pose
         # self.initial_directions = {
@@ -174,30 +123,29 @@ class H36mSkeleton(object):
         #     'RightWristEndSite': [-1, 0, 0]
         # }
 
-        self.initial_directions = {
-            'Hips': [0, 0, 0],
-            'RightUpLeg': [-1, 0, 0],
-            'RightLeg': [0, -1, 0],
-            'RightFoot': [0, -1, 0],
-            'RightFoot_End': [0, 0, 1],
-            'LeftUpLeg': [1, 0, 0],
-            'LeftLeg': [0, -1, 0],
-            'LeftFoot': [0, -1, 0],
-            'LeftFoot_End': [0, 0, 1],
-            'Spine': [0, 1, 0],
-            'Spine3': [0, 1, 0],
-            'Neck': [0, 1, 0],
-            'Head': [0, 1, 0],
-            'LeftArm': [1, 0, 0],
-            'LeftForeArm': [1, 0, 0],
-            'LeftHand': [1, 0, 0],
-            'LeftWristEndSite': [1, 0, 0],
-            'RightArm': [-1, 0, 0],
-            'RightForeArm': [-1, 0, 0],
-            'RightHand': [-1, 0, 0],
-            'RightWristEndSite': [-1, 0, 0]
-        }
-
+        # self.initial_directions = {
+        #     'Hips': [0, 0, 0],
+        #     'RightUpLeg': [-1, 0, 0],
+        #     'RightLeg': [0, -1, 0],
+        #     'RightFoot': [0, -1, 0],
+        #     'RightFoot_End': [0, 0, 1],
+        #     'LeftUpLeg': [1, 0, 0],
+        #     'LeftLeg': [0, -1, 0],
+        #     'LeftFoot': [0, -1, 0],
+        #     'LeftFoot_End': [0, 0, 1],
+        #     'Spine': [0, 1, 0],
+        #     'Spine3': [0, 1, 0],
+        #     'Neck': [0, 1, 0],
+        #     'Head': [0, 1, 0],
+        #     'LeftArm': [1, 0, 0],
+        #     'LeftForeArm': [1, 0, 0],
+        #     'LeftHand': [1, 0, 0],
+        #     'LeftWristEndSite': [1, 0, 0],
+        #     'RightArm': [-1, 0, 0],
+        #     'RightForeArm': [-1, 0, 0],
+        #     'RightHand': [-1, 0, 0],
+        #     'RightWristEndSite': [-1, 0, 0]
+        # }
 
     def get_initial_offset(self, poses_3d):
         # TODO: RANSAC
@@ -242,8 +190,7 @@ class H36mSkeleton(object):
         nodes = {}
         for joint in self.keypoint2index:
             is_root = joint == self.root
-            #is_end_site = 'EndSite' in joint
-            is_end_site = 'End' in joint
+            is_end_site = 'EndSite' in joint
             nodes[joint] = bvh_helper.BvhNode(
                 name=joint,
                 offset=initial_offset[joint],
@@ -547,9 +494,9 @@ class H36mSkeleton(object):
 
         channels = []
         for frame, pose in enumerate(poses_3d):
-            #channels.append(self.pose2euler(pose, header))
+            channels.append(self.pose2euler(pose, header))
             #channels.append(self.pose2euler_SmartBody(pose, header))
-            channels.append(self.pose2euler_SmartBody_Modify(pose, header))
+            #channels.append(self.pose2euler_SmartBody_Modify(pose, header))
 
         if output_file:
             bvh_helper.write_bvh(output_file, header, channels)
