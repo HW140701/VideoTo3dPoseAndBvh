@@ -10,7 +10,7 @@ from common.utils import Timer, evaluate, add_path
 import cv2
 from numpy import *
 import numpy as np
-from bvh_skeleton import openpose_skeleton,h36m_skeleton,cmu_skeleton
+from bvh_skeleton import openpose_skeleton,h36m_skeleton,cmu_skeleton,smartbody_skeleton
 
 
 # from joints_detectors.openpose.main import generate_kpts as open_pose
@@ -141,7 +141,8 @@ def main(args):
 
     # 将预测的三维骨骼点转换为bvh骨骼
     prediction_copy = np.copy(prediction)
-    write_standard_bvh(args.viz_output,prediction_copy)
+    #write_standard_bvh(args.viz_output,prediction_copy) #转为标准bvh骨骼
+    write_smartbody_bvh(args.viz_output,prediction_copy) #转为SmartBody所需的bvh骨骼
 
     anim_output = {'Reconstruction': prediction}
     input_keypoints = image_coordinates(input_keypoints[..., :2], w=1000, h=1002)
@@ -303,9 +304,9 @@ def write_smartbody_bvh(outbvhfilepath,prediction3dpoint):
     # 将预测的点放大100倍
     for frame in prediction3dpoint:
         for point3d in frame:
-            # point3d[0] *= 100
-            # point3d[1] *= 100
-            # point3d[2] *= 100
+            point3d[0] *= 100
+            point3d[1] *= 100
+            point3d[2] *= 100
 
             # 交换Y和Z的坐标
             X = point3d[0]
@@ -323,10 +324,9 @@ def write_smartbody_bvh(outbvhfilepath,prediction3dpoint):
     if not os.path.exists(bvhfileDirectory):
         os.makedirs(bvhfileDirectory)
     bvhfileName = os.path.join(dir_name,video_name,"bvh","{}.bvh".format(video_name))
-    human36m_skeleton = h36m_skeleton.H36mSkeleton()
-    human36m_skeleton.poses2bvh(prediction3dpoint,output_file=bvhfileName)
 
-
+    SmartBody_skeleton = smartbody_skeleton.SmartBodySkeleton()
+    SmartBody_skeleton.poses2bvh(prediction3dpoint,output_file=bvhfileName)
 
 if __name__ == '__main__':
     #inference_video('outputs/kunkun_cut.mp4', 'alpha_pose')
