@@ -1,0 +1,9 @@
+torch==0.4.0
+torchvision
+visdom
+nibabel
+pandas
+tqdm
+matplotlib
+opencv-python
+ntpath
