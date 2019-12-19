@@ -32,6 +32,31 @@ class SmartBodySkeleton(object):
             'RightWristEndSite': -1
         }
 
+        self.root = 'Hips'
+        self.keypoint2index = {
+            'Hips': 0,
+            'RightUpLeg': 1,
+            'RightLeg': 2,
+            'RightFoot': 3,
+            'LeftUpLeg': 4,
+            'LeftLeg': 5,
+            'LeftFoot': 6,
+            'Spine': 7,
+            'Spine3': 8,
+            'Neck': 9,
+            'Head': 10,
+            'LeftArm': 11,
+            'LeftForeArm': 12,
+            'LeftHand': 13,
+            'RightArm': 14,
+            'RightForeArm': 15,
+            'RightHand': 16,
+            'RightFoot_End': -1,
+            'LeftFoot_End': -1,
+            'LeftWristEndSite': -1,
+            'RightWristEndSite': -1
+        }
+
         self.index2keypoint = {v: k for k, v in self.keypoint2index.items()}
         self.keypoint_num = len(self.keypoint2index)
 
@@ -106,7 +131,7 @@ class SmartBodySkeleton(object):
             parent = stack.pop()
             p_idx = self.keypoint2index[parent]
             for child in self.children[parent]:
-                if 'EndSite' in child:
+                if 'End' in child:
                     bone_lens[child] = 0.4 * bone_lens[parent]
                     continue
                 stack.append(child)
@@ -131,6 +156,10 @@ class SmartBodySkeleton(object):
         for joint, direction in self.initial_directions.items():
             direction = np.array(direction) / max(np.linalg.norm(direction), 1e-12)
             initial_offset[joint] = direction * bone_len[joint]
+
+        initial_offset['Hips'] = initial_offset['RightFoot_End'] + initial_offset['RightFoot'] + initial_offset['RightLeg'] + initial_offset['RightUpLeg']+initial_offset['Hips']
+
+        initial_offset['Hips'] *= -1
 
         return initial_offset
 
