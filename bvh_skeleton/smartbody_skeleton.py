@@ -1,5 +1,5 @@
 from . import math3d
-from . import bvh_helper
+from . import bvh_helper_SmartBody
 
 import numpy as np
 
@@ -142,7 +142,7 @@ class SmartBodySkeleton(object):
             is_root = joint == self.root
             # is_end_site = 'EndSite' in joint
             is_end_site = 'End' in joint
-            nodes[joint] = bvh_helper.BvhNode(
+            nodes[joint] = bvh_helper_SmartBody.BvhNode(
                 name=joint,
                 offset=initial_offset[joint],
                 rotation_order='zxy' if not is_end_site else '',
@@ -154,7 +154,7 @@ class SmartBodySkeleton(object):
             for child in children:
                 nodes[child].parent = nodes[joint]
 
-        header = bvh_helper.BvhHeader(root=nodes[self.root], nodes=nodes)
+        header = bvh_helper_SmartBody.BvhHeader(root=nodes[self.root], nodes=nodes)
         return header
 
     def pose2euler(self, pose, header):
@@ -259,6 +259,6 @@ class SmartBodySkeleton(object):
             channels.append(self.pose2euler(pose, header))
 
         if output_file:
-            bvh_helper.write_bvh(output_file, header, channels)
+            bvh_helper_SmartBody.write_bvh(output_file, header, channels)
 
         return channels, header
