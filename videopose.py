@@ -304,9 +304,9 @@ def write_smartbody_bvh(outbvhfilepath,prediction3dpoint):
     # 将预测的点放大100倍
     for frame in prediction3dpoint:
         for point3d in frame:
-            # point3d[0] *= 100
-            # point3d[1] *= 100
-            # point3d[2] *= 100
+            point3d[0] *= 100
+            point3d[1] *= 100
+            point3d[2] *= 100
 
             # 交换Y和Z的坐标
             X = point3d[0]
