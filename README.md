@@ -8,7 +8,7 @@ The project extracted the 2d joint key point from the video by using [AlphaPose]
 
 # Environment
 - Windows 10
-- Anconda
+- Anaconda
 - Python > 3.6
 
 # Dependencies
@@ -51,6 +51,7 @@ This is the dependencies of the project of [video-to-pose3D](https://github.com/
 
 # How to Use it
 Please place your video to the .\outputs\inputvideo, and setting the path to the videopose.py, like this 
+
     inference_video('outputs/inputvideo/kunkun_cut.mp4', 'alpha_pose')
 
-Waiting some minute, you can see the output video in the outputvideo directory,and the bvh file in the \outputs\outputvideo\alpha_pose_kunkun_cut\bvh directory.
+Waiting some minute, you can see the output video in the \outputs\outputvideo directory,and the bvh file in the \outputs\outputvideo\alpha_pose_kunkun_cut\bvh directory.
