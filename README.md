@@ -18,7 +18,7 @@ The project extracted the 2d joint key point from the video by using [AlphaPose]
 This is the dependencies of the project of [video-to-pose3D](https://github.com/zh-plus/video-to-pose3D), and modifyed by me to solve some bug.
 
 - **Packages**
-      - Pytorch > 1.1.0 (I use the Pytorch1.1.0 - GPU.)
+      - Pytorch > 1.1.0 (I use the Pytorch1.1.0 - GPU)
       - [torchsample](https://github.com/MVIG-SJTU/AlphaPose/issues/71#issuecomment-398616495)
       - [ffmpeg](https://ffmpeg.org/download.html) (note:you must copy the ffmpeg.exe to the directory of python install)
       - tqdm
