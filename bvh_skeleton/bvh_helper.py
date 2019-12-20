@@ -5,8 +5,7 @@ from pathlib import Path
 class BvhNode(object):
     def __init__(
         self, name, offset, rotation_order,
-        children=None, parent=None, is_root=False, is_end_site=False, is_world_offset=False
-    ):
+        children=None, parent=None, is_root=False, is_end_site=False):
         if not is_end_site and \
           rotation_order not in ['xyz', 'xzy', 'yxz', 'yzx', 'zxy', 'zyx']:
             raise ValueError(f'Rotation order invalid.')
@@ -17,7 +16,6 @@ class BvhNode(object):
         self.parent = parent
         self.is_root = is_root
         self.is_end_site = is_end_site
-        self.is_world_offset = is_world_offset
     
 
 class BvhHeader(object):

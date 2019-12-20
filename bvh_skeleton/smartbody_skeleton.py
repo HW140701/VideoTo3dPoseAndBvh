@@ -1,4 +1,4 @@
-from . import math3d
+from . import math3d_SmartBody
 from . import bvh_helper_SmartBody
 
 import numpy as np
@@ -131,7 +131,7 @@ class SmartBodySkeleton(object):
             parent = stack.pop()
             p_idx = self.keypoint2index[parent]
             for child in self.children[parent]:
-                if 'End' in child:
+                if 'End' in child or child == 'Head':
                     bone_lens[child] = 0.4 * bone_lens[parent]
                     continue
                 stack.append(child)
@@ -157,8 +157,9 @@ class SmartBodySkeleton(object):
             direction = np.array(direction) / max(np.linalg.norm(direction), 1e-12)
             initial_offset[joint] = direction * bone_len[joint]
 
-        initial_offset['Hips'] = initial_offset['RightFoot_End'] + initial_offset['RightFoot'] + initial_offset['RightLeg'] + initial_offset['RightUpLeg']+initial_offset['Hips']
-
+        initial_offset['Hips'] = self.initial_directions['Hips'] * (
+                    initial_offset['RightFoot_End'] + initial_offset['RightFoot'] + initial_offset['RightLeg'] +
+                    initial_offset['RightUpLeg'] + initial_offset['Hips'])
         initial_offset['Hips'] *= -1
 
         return initial_offset
@@ -170,7 +171,7 @@ class SmartBodySkeleton(object):
         for joint in self.keypoint2index:
             is_root = joint == self.root
             # is_end_site = 'EndSite' in joint
-            is_end_site = 'End' in joint
+            is_end_site = 'End' in joint or joint == 'Head'
             nodes[joint] = bvh_helper_SmartBody.BvhNode(
                 name=joint,
                 offset=initial_offset[joint],
@@ -203,31 +204,31 @@ class SmartBodySkeleton(object):
             order = None
             if joint == 'Hips':
                 x_dir = pose[index['LeftUpLeg']] - pose[index['RightUpLeg']]
-                z_dir = None
                 y_dir = pose[index['Spine']] - pose[joint_idx]
+                z_dir = None
                 order = 'yzx'
-            elif joint in ['LeftUpLeg', 'RightLeg']:
+            elif joint in ['RightUpLeg', 'RightLeg']:
                 child_idx = self.keypoint2index[node.children[0].name]
                 x_dir = pose[index['Hips']] - pose[index['RightUpLeg']]
-                z_dir = None
                 y_dir = pose[joint_idx] - pose[child_idx]
+                z_dir = None
                 order = 'yzx'
             elif joint in ['LeftUpLeg', 'LeftLeg']:
                 child_idx = self.keypoint2index[node.children[0].name]
                 x_dir = pose[index['LeftUpLeg']] - pose[index['Hips']]
-                z_dir = None
                 y_dir = pose[joint_idx] - pose[child_idx]
+                z_dir = None
                 order = 'yzx'
             elif joint == 'Spine':
                 x_dir = pose[index['LeftUpLeg']] - pose[index['RightUpLeg']]
-                z_dir = None
                 y_dir = pose[index['Spine3']] - pose[joint_idx]
+                z_dir = None
                 order = 'yzx'
             elif joint == 'Spine3':
                 x_dir = pose[index['LeftArm']] - \
                         pose[index['RightArm']]
-                z_dir = None
                 y_dir = pose[joint_idx] - pose[index['Spine']]
+                z_dir = None
                 order = 'yzx'
             elif joint == 'Neck':
                 x_dir = None
@@ -236,37 +237,37 @@ class SmartBodySkeleton(object):
                 order = 'yxz'
             elif joint == 'LeftArm':
                 x_dir = pose[index['LeftForeArm']] - pose[joint_idx]
-                z_dir = pose[index['LeftForeArm']] - pose[index['LeftHand']]
                 y_dir = None
+                z_dir = pose[index['LeftForeArm']] - pose[index['LeftHand']]
                 order = 'xyz'
             elif joint == 'LeftForeArm':
                 x_dir = pose[index['LeftHand']] - pose[joint_idx]
-                z_dir = pose[joint_idx] - pose[index['LeftArm']]
                 y_dir = None
+                z_dir = pose[joint_idx] - pose[index['LeftArm']]
                 order = 'xyz'
             elif joint == 'RightArm':
                 x_dir = pose[joint_idx] - pose[index['RightForeArm']]
-                z_dir = pose[index['RightForeArm']] - pose[index['RightHand']]
                 y_dir = None
+                z_dir = pose[index['RightForeArm']] - pose[index['RightHand']]
                 order = 'xyz'
             elif joint == 'RightForeArm':
                 x_dir = pose[joint_idx] - pose[index['RightHand']]
-                z_dir = pose[joint_idx] - pose[index['RightArm']]
                 y_dir = None
+                z_dir = pose[joint_idx] - pose[index['RightArm']]
                 order = 'xyz'
             if order:
-                dcm = math3d.dcm_from_axis(x_dir, y_dir, z_dir, order)
-                quats[joint] = math3d.dcm2quat(dcm)
+                dcm = math3d_SmartBody.dcm_from_axis(x_dir, y_dir, z_dir, order)
+                quats[joint] = math3d_SmartBody.dcm2quat(dcm)
             else:
                 quats[joint] = quats[self.parent[joint]].copy()
 
             local_quat = quats[joint].copy()
             if node.parent:
-                local_quat = math3d.quat_divide(
+                local_quat = math3d_SmartBody.quat_divide(
                     q=quats[joint], r=quats[node.parent.name]
                 )
 
-            euler = math3d.quat2euler(
+            euler = math3d_SmartBody.quat2euler(
                 q=local_quat, order=node.rotation_order
             )
             euler = np.rad2deg(euler)

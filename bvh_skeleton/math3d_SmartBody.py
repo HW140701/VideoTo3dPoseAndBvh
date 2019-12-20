@@ -17,7 +17,7 @@ def dcm_from_axis(x_dir, y_dir, z_dir, order):
     assert order in ['yzx', 'yxz', 'xyz', 'xzy', 'zxy', 'zyx']
 
     axis = {'x': x_dir, 'y': y_dir, 'z': z_dir}
-    name = ['x', 'y', 'z']    
+    name = ['x', 'y', 'z']
     idx0 = name.index(order[0])
     idx1 = name.index(order[1])
     idx2 = name.index(order[2])

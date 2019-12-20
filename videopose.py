@@ -154,12 +154,12 @@ def main(args):
         args.viz_output = 'outputs/outputvideo/alpha_result.mp4'
 
     # 第五步：生成输出视频
-    from common.visualization import render_animation
-    render_animation(input_keypoints, anim_output,
-                     Skeleton(), 25, args.viz_bitrate, np.array(70., dtype=np.float32), args.viz_output,
-                     limit=args.viz_limit, downsample=args.viz_downsample, size=args.viz_size,
-                     input_video_path=args.viz_video, viewport=(1000, 1002),
-                     input_video_skip=args.viz_skip)
+    # from common.visualization import render_animation
+    # render_animation(input_keypoints, anim_output,
+    #                  Skeleton(), 25, args.viz_bitrate, np.array(70., dtype=np.float32), args.viz_output,
+    #                  limit=args.viz_limit, downsample=args.viz_downsample, size=args.viz_size,
+    #                  input_video_path=args.viz_video, viewport=(1000, 1002),
+    #                  input_video_skip=args.viz_skip)
 
     ckpt, time4 = ckpt_time(time3)
     print('total spend {:2f} second'.format(ckpt))
@@ -270,9 +270,9 @@ def write_standard_bvh(outbvhfilepath,prediction3dpoint):
     # 将预测的点放大100倍
     for frame in prediction3dpoint:
         for point3d in frame:
-            point3d[0] *= 100
-            point3d[1] *= 100
-            point3d[2] *= 100
+            # point3d[0] *= 100
+            # point3d[1] *= 100
+            # point3d[2] *= 100
 
             # 交换Y和Z的坐标
             X = point3d[0]
@@ -330,4 +330,4 @@ def write_smartbody_bvh(outbvhfilepath,prediction3dpoint):
 
 if __name__ == '__main__':
     #inference_video('outputs/kunkun_cut.mp4', 'alpha_pose')
-    inference_video('outputs/inputvideo/cxk.mp4', 'alpha_pose')
+    inference_video('outputs/inputvideo/kunkun_cut.mp4', 'alpha_pose')
