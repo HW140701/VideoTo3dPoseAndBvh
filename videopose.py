@@ -329,5 +329,4 @@ def write_smartbody_bvh(outbvhfilepath,prediction3dpoint):
     SmartBody_skeleton.poses2bvh(prediction3dpoint,output_file=bvhfileName)
 
 if __name__ == '__main__':
-    #inference_video('outputs/kunkun_cut.mp4', 'alpha_pose')
     inference_video('outputs/inputvideo/kunkun_cut.mp4', 'alpha_pose')

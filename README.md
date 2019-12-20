@@ -1,5 +1,6 @@
 # Video to 3DPose and Bvh motion file
 
+<p align="center"><img src="asset/kunkun_alphapose.gif" width="100%" alt="" /></p>
 <p align="center"><img src="asset/example_bvh.gif" width="100%" alt="" /></p>
 
 This project integrates some project working, example as [VideoPose3D](https://github.com/facebookresearch/VideoPose3D),[video-to-pose3D](https://github.com/zh-plus/video-to-pose3D) , [video2bvh](https://github.com/KevinLTT/video2bvh "video2bvh"), [AlphaPose](https://github.com/MVIG-SJTU/AlphaPose), [Higher-HRNet-Human-Pose-Estimation](https://github.com/HRNet/Higher-HRNet-Human-Pose-Estimation),[openpose](https://github.com/CMU-Perceptual-Computing-Lab/openpose), thanks for the mentioned above project.
