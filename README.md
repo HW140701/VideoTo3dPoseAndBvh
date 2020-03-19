@@ -1,5 +1,6 @@
 # Video to 3DPose and Bvh motion file
 
+<p align="center"><img src="asset/wujing.gif" width="100%" alt="" /></p>
 <p align="center"><img src="asset/kunkun_alphapose.gif" width="100%" alt="" /></p>
 <p align="center"><img src="asset/example_bvh.gif" width="100%" alt="" /></p>
 <p align="center"><img src="asset/example_bvh_1.gif" width="100%" alt="" /></p>
