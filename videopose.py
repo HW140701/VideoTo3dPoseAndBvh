@@ -141,7 +141,7 @@ def main(args):
 
     # 将预测的三维骨骼点转换为bvh骨骼
     prediction_copy = np.copy(prediction)
-    #write_standard_bvh(args.viz_output,prediction_copy) #转为标准bvh骨骼
+    write_standard_bvh(args.viz_output,prediction_copy) #转为标准bvh骨骼
     write_smartbody_bvh(args.viz_output,prediction_copy) #转为SmartBody所需的bvh骨骼
 
     anim_output = {'Reconstruction': prediction}
@@ -270,18 +270,18 @@ def write_standard_bvh(outbvhfilepath,prediction3dpoint):
     # 将预测的点放大100倍
     for frame in prediction3dpoint:
         for point3d in frame:
-            # point3d[0] *= 100
-            # point3d[1] *= 100
-            # point3d[2] *= 100
+            point3d[0] *= 100
+            point3d[1] *= 100
+            point3d[2] *= 100
 
             # 交换Y和Z的坐标
-            X = point3d[0]
-            Y = point3d[1]
-            Z = point3d[2]
+            #X = point3d[0]
+            #Y = point3d[1]
+            #Z = point3d[2]
 
-            point3d[0] = -X
-            point3d[1] = Z
-            point3d[2] = Y
+            #point3d[0] = -X
+            #point3d[1] = Z
+            #point3d[2] = Y
 
     dir_name = os.path.dirname(outbvhfilepath)
     basename = os.path.basename(outbvhfilepath)
@@ -304,9 +304,9 @@ def write_smartbody_bvh(outbvhfilepath,prediction3dpoint):
     # 将预测的点放大100倍
     for frame in prediction3dpoint:
         for point3d in frame:
-            point3d[0] *= 100
-            point3d[1] *= 100
-            point3d[2] *= 100
+            # point3d[0] *= 100
+            # point3d[1] *= 100
+            # point3d[2] *= 100
 
             # 交换Y和Z的坐标
             X = point3d[0]

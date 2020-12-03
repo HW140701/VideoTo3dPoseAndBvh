@@ -157,9 +157,7 @@ class SmartBodySkeleton(object):
             direction = np.array(direction) / max(np.linalg.norm(direction), 1e-12)
             initial_offset[joint] = direction * bone_len[joint]
 
-        initial_offset['Hips'] = self.initial_directions['Hips'] * (
-                    initial_offset['RightFoot_End'] + initial_offset['RightFoot'] + initial_offset['RightLeg'] +
-                    initial_offset['RightUpLeg'] + initial_offset['Hips'])
+        initial_offset['Hips'] = (initial_offset['RightFoot_End'] + initial_offset['RightFoot'] + initial_offset['RightLeg'] + initial_offset['RightUpLeg'] + initial_offset['Hips'])
         initial_offset['Hips'] *= -1
 
         return initial_offset
